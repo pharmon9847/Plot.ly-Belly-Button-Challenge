@@ -36,7 +36,9 @@ function buildBarChart(sample) {
             x: xbar.slice(0, 10).reverse(),
             hovertext: barHover.slice(0, 10).reverse(),
             type: "bar",
-            orientation: "h"
+            orientation: "h",
+            backgroundcolor: "khaki",
+            showbackground: true
         }
         var data = [trace1];
 
@@ -44,10 +46,10 @@ function buildBarChart(sample) {
         var layout = {
             title: "Top 10 OTUs",
             margin: {
-                l: 100,
-                r: 100,
-                t: 100,
-                b: 100
+                l: 75,
+                r: 75,
+                t: 75,
+                b: 75
             } //ends the margin
         }; //ends the layout
 
@@ -65,7 +67,7 @@ function buildGaugeChart(sample) {
         //console.log(data);  - used to make sure I was getting the data I wanted
         var freqValues = data.WFREQ;
         //console.log(freqValues);  used to check the value
-        var data = [{
+        var data2 = [{
                 type: "indicator",
                 mode: "gauge+number",
                 value: freqValues,
@@ -73,8 +75,8 @@ function buildGaugeChart(sample) {
                 gauge: {
                     axis: { range: [null, 9], tickwidth: 1, tickcolor: "black" }, // Max value is 9
                     bar: { color: "black" }, // Color of the bar (black) that indicates the washing frequency value
-                    bgcolor: "white",
-                    borderwidth: 2,
+                    bgcolor: "khaki",
+                    borderwidth: 3,
                     bordercolor: "black",
                     // Set the colors for the different ranges on the gauge
                     steps: [
@@ -93,19 +95,53 @@ function buildGaugeChart(sample) {
 
         ]; //ends the bracket with var data [
 
-        var layout = {
-            width: 500,
-            height: 400,
-            margin: { t: 25, r: 25, l: 25, b: 25 },
+        var layout2 = {
+            width: 300,
+            height: 300,
+            margin: { t: 15, r: 15, l: 15, b: 15 },
             paper_bgcolor: "lavender",
-            font: { color: "darkblue", family: "Arial" }
+            font: { color: "darkblue", family: "Arial" },
+            backgroundcolor: "khaki",
+            showbackground: true
         }; //ends the layout
 
-        var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+        //var layout = { width: 400, height: 400, margin: { t: 0, b: 0 } };
         //plot
-        Plotly.newPlot("gauge", data, layout);
+        Plotly.newPlot("gauge", data2, layout2);
     }); // ends d3.json(url).then(function(data)
 } //ends the function buildGaugeChart(sample)
+
+// Build the pie chart
+function buildPieChart(sample) {
+
+    // use `d3.json` to fetch the sample data
+    var url = `/samples/${sample}`;
+    d3.json(url).then(function(data) {
+        var values = data.sample_values.slice(0, 10);
+        var labels = data.otu_ids.slice(0, 10);
+        var display = data.otu_labels.slice(0, 10);
+
+        var data3 = [{
+            values: values,
+            labels: labels,
+            title: { text: "Percent OTU</b>", font: { color: "black", family: "Arial" } },
+            hovertext: display,
+            type: 'pie',
+            marker: {
+                colorscale: "Earth"
+            }
+        }];
+
+        var layout3 = {
+            showlegend: true,
+            height: 400,
+            width: 300,
+            backgroundcolor: "khaki",
+            showbackground: true
+        };
+        Plotly.newPlot('pie', data3, layout3);
+    });
+}
 
 // Build the bubble chart
 function buildCharts(sample) {
@@ -132,13 +168,15 @@ function buildCharts(sample) {
             } //ends marker:
         }; //ends trace_bubble
 
-        var data = [trace_bubble];
+        var data4 = [trace_bubble];
 
-        var layout = {
-            xaxis: { title: "OTU ID" }
+        var layout4 = {
+            xaxis: { title: "OTU ID" },
+            backgroundcolor: "khaki",
+            showbackground: true
         }; //ends the layout
 
-        Plotly.newPlot('bubble', data, layout);
+        Plotly.newPlot('bubble', data4, layout4);
 
     }); //ends the d3.json(url).then(function(data)
 } //ends the function buildCharts(sample)
@@ -159,6 +197,7 @@ function init() {
         // Use the first sample from the list to build the initial plots
         const firstSample = sampleNames[0];
         buildBarChart(firstSample);
+        buildPieChart(firstSample);
         buildGaugeChart(firstSample);
         buildCharts(firstSample);
         buildMetadata(firstSample);
@@ -168,6 +207,7 @@ function init() {
 function optionChanged(newSample) {
     // Fetch new data each time a new sample is selected
     buildBarChart(newSample);
+    buildPieChart(newSample);
     buildGaugeChart(newSample);
     buildCharts(newSample);
     buildMetadata(newSample);
