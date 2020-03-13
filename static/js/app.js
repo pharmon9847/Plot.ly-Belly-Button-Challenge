@@ -36,15 +36,17 @@ function buildBarChart(sample) {
             x: xbar.slice(0, 10).reverse(),
             hovertext: barHover.slice(0, 10).reverse(),
             type: "bar",
-            orientation: "h",
-            backgroundcolor: "khaki",
-            showbackground: true
+            marker: {
+                colorscale: "Earth"
+            },
+            orientation: "h"
         }
         var data = [trace1];
 
         // Apply the group bar mode to the layout
         var layout = {
             title: "Top 10 OTUs",
+            showlegend: true,
             margin: {
                 l: 75,
                 r: 75,
@@ -75,7 +77,6 @@ function buildGaugeChart(sample) {
                 gauge: {
                     axis: { range: [null, 9], tickwidth: 1, tickcolor: "black" }, // Max value is 9
                     bar: { color: "black" }, // Color of the bar (black) that indicates the washing frequency value
-                    bgcolor: "khaki",
                     borderwidth: 3,
                     bordercolor: "black",
                     // Set the colors for the different ranges on the gauge
@@ -96,13 +97,10 @@ function buildGaugeChart(sample) {
         ]; //ends the bracket with var data [
 
         var layout2 = {
-            width: 300,
-            height: 300,
+            width: 500,
+            height: 500,
             margin: { t: 15, r: 15, l: 15, b: 15 },
-            paper_bgcolor: "lavender",
-            font: { color: "darkblue", family: "Arial" },
-            backgroundcolor: "khaki",
-            showbackground: true
+            font: { color: "black", family: "Arial" }
         }; //ends the layout
 
         //var layout = { width: 400, height: 400, margin: { t: 0, b: 0 } };
@@ -124,7 +122,6 @@ function buildPieChart(sample) {
         var data3 = [{
             values: values,
             labels: labels,
-            title: { text: "Percent OTU</b>", font: { color: "black", family: "Arial" } },
             hovertext: display,
             type: 'pie',
             marker: {
@@ -133,11 +130,10 @@ function buildPieChart(sample) {
         }];
 
         var layout3 = {
+            title: 'Percent OTUs',
             showlegend: true,
-            height: 400,
-            width: 300,
-            backgroundcolor: "khaki",
-            showbackground: true
+            height: 600,
+            width: 600
         };
         Plotly.newPlot('pie', data3, layout3);
     });
@@ -171,9 +167,7 @@ function buildCharts(sample) {
         var data4 = [trace_bubble];
 
         var layout4 = {
-            xaxis: { title: "OTU ID" },
-            backgroundcolor: "khaki",
-            showbackground: true
+            xaxis: { title: "OTU ID" }
         }; //ends the layout
 
         Plotly.newPlot('bubble', data4, layout4);
