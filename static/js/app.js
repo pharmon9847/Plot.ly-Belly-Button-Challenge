@@ -41,9 +41,13 @@ function buildBarChart(sample) {
             },
             orientation: "h"
         }
-        var data = [trace1];
-
-        // Apply the group bar mode to the layout
+        var data = {
+                [trace1];
+                marker: {
+                    colorscale: "Earth"
+                }
+            }
+            // Apply the group bar mode to the layout
         var layout = {
             title: "Top 10 OTUs",
             showlegend: true,
