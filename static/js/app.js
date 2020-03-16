@@ -36,18 +36,11 @@ function buildBarChart(sample) {
             x: xbar.slice(0, 10).reverse(),
             hovertext: barHover.slice(0, 10).reverse(),
             type: "bar",
-            marker: {
-                colorscale: "Earth"
-            },
             orientation: "h"
         }
-        var data = {
-                [trace1];
-                marker: {
-                    colorscale: "Earth"
-                }
-            }
-            // Apply the group bar mode to the layout
+        var data = [trace1];
+
+        // Apply the group bar mode to the layout
         var layout = {
             title: "Top 10 OTUs",
             showlegend: true,
